@@ -1,4 +1,5 @@
 import dao.ProjetoCSV;
+import java.util.List;
 import model.Projeto;
 import service.ProjetoService;
 
@@ -32,6 +33,15 @@ public class Main {
 
         dao.salvar(service.listar());
 
+
+        List<Projeto> projetos =
+        dao.listar();
+
+        for (Projeto projeto : projetos) {
+
+        projeto.exibirDados();
+
+        }
         System.out.println("Dados salvos com sucesso!");
     }
 }
