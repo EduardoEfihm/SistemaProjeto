@@ -12,8 +12,7 @@ public class ProjetoCSV {
 
     public ProjetoCSV() {
 
-        caminho =
-            Path.of("src/dao/projetos.csv");
+        caminho = Path.of("dados/projetos.csv");
 
     }
 
@@ -22,7 +21,9 @@ public class ProjetoCSV {
 
         List<String> linhas =  new ArrayList<>();
 
-        linhas.add("id;nome;descricao;categoria;status");
+        linhas.add(
+            "id;nome;descricao;categoria;status"
+        );
 
         for (Projeto projeto : projetos) {
 
@@ -37,5 +38,48 @@ public class ProjetoCSV {
         }
 
         Files.write(caminho, linhas);
+    }
+
+    public List<Projeto> listar()
+        throws Exception {
+
+        List<Projeto> projetos =
+            new ArrayList<>();
+
+        if (!Files.exists(caminho)) {
+
+            return projetos;
+
+        }
+
+        List<String> linhas =
+            Files.readAllLines(caminho);
+
+        for (int i = 1; i < linhas.size(); i++) {
+
+            String linha = linhas.get(i);
+
+            String[] dados =
+                linha.split(";");
+
+            int id = Integer.parseInt(dados[0]);
+            String nome = dados[1];
+            String descricao = dados[2];
+            String categoria = dados[3];
+            String status = dados[4];
+
+            Projeto projeto =
+                new Projeto(
+                    id,
+                    nome,
+                    descricao,
+                    categoria,
+                    status
+                );
+
+            projetos.add(projeto);
+        }
+
+        return projetos;
     }
 }
